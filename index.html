@@ -2,196 +2,129 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Halloween Mampatahotsy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halloween Photo Transformer</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: url('https://tsioky-atimo-event.neocities.org/Gemini_Generated_Image_mgf1edmgf1edmgf1.png') no-repeat center center fixed;
-      background-size: 95%;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-      height: 100vh;
-      font-family: 'Creepster', cursive, Arial, sans-serif;
-      overflow: hidden;
-      position: relative;
-      color: #ff3300;
-      text-shadow: 2px 2px 5px black;
-    }
-
-    .demon {
-      position: absolute;
-      width: 60px;
-      height: 60px;
-      background: url('https://tsioky-atimo-event.neocities.org/demon.png') no-repeat center/contain;
-      animation: floatDemon linear infinite;
-      opacity: 0.7;
-    }
-
-    @keyframes floatDemon {
-      0% { transform: translateY(100vh) translateX(0); }
-      100% { transform: translateY(-100px) translateX(200px); }
-    }
-
-    #uploadContainer {
-      position: absolute;
-      top: 20%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      z-index: 10;
-      background-color: rgba(0,0,0,0.6);
+   body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background: url('https://tsioky-atimo-event.neocities.org/Gemini_Generated_Image_mgf1edmgf1edmgf1.png') no-repeat center center fixed;
+  background-size: 95%; /* réduction supplémentaire pour que rien ne soit coupé */
+  filter: brightness(0.8);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 50px;
+  color: white;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+    .card {
+      background: rgba(0, 0, 0, 0.6); /* fond légèrement plus transparent */
       padding: 20px;
-      border: 3px solid #ff3300;
-      border-radius: 15px;
-    }
-
-    #promptInput {
-      width: 300px;
-      padding: 10px;
-      margin-bottom: 15px;
-      font-size: 16px;
-      border: 2px solid #ff3300;
-      border-radius: 8px;
-      background-color: rgba(255,255,255,0.1);
-      color: white;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+      max-width: 380px;
+      width: 100%;
       text-align: center;
     }
-
-    #uploadInput {
-      margin-bottom: 10px;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: 2px solid #ff3300;
-      background-color: rgba(255,255,255,0.1);
-      color: white;
-      cursor: pointer;
+    h2 {
+      margin-bottom: 15px;
+      color: #ff3b3b;
     }
-
-    #result img {
-      max-width: 50vw;
-      margin-top: 20px;
-      border: 3px solid #ff3300;
-      border-radius: 10px;
-    }
-
-    #downloadBtn {
-      margin-top: 10px;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: rgba(255,0,0,0.8);
+    input[type="email"], input[type="text"], input[type="file"] {
+      width: 95%;
+      padding: 7px; /* un peu plus petit */
+      margin: 5px 0;
       border: none;
-      border-radius: 10px;
+      border-radius: 6px;
+      background: rgba(51, 51, 51, 0.9); /* plus léger */
       color: white;
+      font-size: 13px;
+    }
+    button {
+      width: 95%;
+      padding: 9px; /* légèrement plus petit */
+      background: rgba(255, 59, 59, 0.85); /* fond un peu plus léger */
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 14px;
       cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
+      margin-top: 6px; /* légèrement remonté */
     }
-
-    /* Spinner */
-    .spinner {
-      border: 6px solid rgba(255, 51, 0, 0.2);
-      border-top: 6px solid #ff3300;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin-top: 20px;
+    button:hover {
+      background: #ff0000;
     }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    a {
-      color: #ff3300;
-      text-decoration: underline;
-      margin-bottom: 30px;
-      z-index: 10;
-      position: relative;
-      font-weight: bold;
+    .status {
+      margin-top: 10px;
+      font-size: 13px;
     }
   </style>
 </head>
 <body>
-
-  <div id="uploadContainer">
-    <input type="text" id="promptInput" placeholder="Écris ton prompt ici (facultatif)">
-    <input type="file" id="uploadInput" accept="image/*">
-    <div id="result"></div>
+  <div class="card">
+    <h2>Halloween Transformer</h2>
+    <input type="email" id="email" placeholder="Ton email" required>
+    <input type="text" id="description" placeholder="Description (facultatif)">
+    <input type="file" id="photo" accept="image/*" required>
+    <button id="sendBtn">Transformer la photo</button>
+    <div class="status" id="status"></div>
   </div>
 
-  <a href="https://www.facebook.com/profile.php?id=61582742702865" target="_blank">Suivez-nous sur Facebook ici</a>
-
-  <div class="demon" style="left: 10%; animation-duration: 15s;"></div>
-  <div class="demon" style="left: 50%; animation-duration: 20s;"></div>
-  <div class="demon" style="left: 80%; animation-duration: 18s;"></div>
-
   <script>
-    const uploadInput = document.getElementById('uploadInput');
-    const promptInput = document.getElementById('promptInput');
-    const resultDiv = document.getElementById('result');
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxbKttHnUYgLJBUbrWrKraePIBpKr9y_i9NS5OSlMCZ__y6D4XiB9u36uR4q6YJuUds/exec";
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbzsAp6KPDyiy01LZeCXoVRWeFI9LaacOfBGGCdH1Z2ZVdvNd3EVdYHrBrgICAywiFXzxQ/exec";
 
+    document.getElementById("sendBtn").addEventListener("click", () => {
+      const email = document.getElementById("email").value.trim();
+      const description = document.getElementById("description").value.trim();
+      const fileInput = document.getElementById("photo");
 
-    uploadInput.addEventListener('change', async (event) => {
-      const file = event.target.files[0];
-      if (!file) {
-        alert("Choisis une photo d'abord !");
+      if (!email) {
+        alert("Veuillez entrer votre email !");
+        return;
+      }
+      if (fileInput.files.length === 0) {
+        alert("Veuillez choisir une photo !");
         return;
       }
 
       const reader = new FileReader();
-      reader.onload = async function() {
-        const base64 = reader.result.split(',')[1];
-        const prompt = promptInput.value && promptInput.value.trim() !== "" ? promptInput.value.trim() : 
-          "Transforme cette photo en version démoniaque pour Halloween, avec des yeux rouges, ambiance sombre.";
+      reader.onload = function(e) {
+        const base64Image = e.target.result;
+        const data = {
+          email: email,
+          description: description,
+          image: base64Image
+        };
 
-        // Afficher le spinner de chargement
-        resultDiv.innerHTML = "<p style='color:white;'>🕷️ Transformation en cours…</p><div class='spinner'></div>";
+        document.getElementById("status").innerText = "Envoi en cours...";
 
-        try {
-          const response = await fetch(SCRIPT_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ image: base64, prompt: prompt })
-          });
-
-          const data = await response.json();
-
-          if (data.error) {
-            resultDiv.innerHTML = "<p style='color:red;'>Erreur : " + data.error + "</p>";
-            return;
-          }
-
-          if (data.success && data.imageUrl) {
-            resultDiv.innerHTML = "";
-            const img = document.createElement('img');
-            img.src = data.imageUrl;
-            resultDiv.appendChild(img);
-
-            const downloadBtn = document.createElement('a');
-            downloadBtn.href = data.imageUrl;
-            downloadBtn.download = "Photo_Halloween.png";
-            downloadBtn.id = "downloadBtn";
-            downloadBtn.innerText = "Télécharger ma photo";
-            resultDiv.appendChild(downloadBtn);
+        fetch(webAppUrl, {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+          if (result.success) {
+            document.getElementById("status").innerText = "Photo envoyée avec succès ! Vérifie ton email.";
           } else {
-            resultDiv.innerHTML = "<p style='color:red;'>Erreur inconnue.</p>";
+            document.getElementById("status").innerText = "Erreur : " + result.error;
           }
-
-        } catch (err) {
+        })
+        .catch(err => {
           console.error(err);
-          resultDiv.innerHTML = "<p style='color:red;'>Une erreur s’est produite.</p>";
-        }
+          document.getElementById("status").innerText = "Erreur lors de l'envoi.";
+        });
       };
-      reader.readAsDataURL(file);
+
+      reader.readAsDataURL(fileInput.files[0]);
     });
   </script>
-
 </body>
 </html>
